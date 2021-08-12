@@ -9,6 +9,19 @@ The class is split up into four modules: (1) *Fundamentals* introduces the uniqu
 
 | Module | Week | Dates | Topics |
 | --- | --- | --- | --- |
-| | 1 | Aug 24; Aug 26 | Fundamentals of networks |
+| Fundamentals | 1 | Aug 24; Aug 26 | Fundamentals of networks |
 | Fundamentals | 2 | Aug 31; Sep 2 | Data and ethics of networks |
-| | 3 |Sep 7; Sep 9 | Visualizing networks | 
+| Fundamentals | 3 | Sep 7; Sep 9 | Visualizing networks | 
+| Structure | 4 | Sep 14; Sep 16 | Node-level structure |
+| Structure | 5 | Sep 21; Sep 23 | Local-level structure |
+| Structure | 6 | Sep 28; Sep 30 | Global-level structure |
+| Structure | 7 | Oct 5; Oct 7 | Community structure |
+| Dynamics | 8 | Oct 12; Oct 14 | Random networks |
+| Dynamics | 9 | Oct 19; Oct 21 | Network growth |
+| Dynamics | 10 | Oct 26; Oct 28 | Network growth |
+| Dynamics | 11 | Nov 2; Nov 4 | Similarity and homophily |
+| Applications | 12 | Nov 9; Nov 11 | Bipartite networks |
+| Applications | 13 | Nov 16; Nov 18 | Weighted networks |
+| | 14 | Nov 23; Nov 25 | Fall break |
+| Presentations | 15 | Nov 30; Dec 2 | Presentations |
+| Presentations | 16 | Dec 7; Dec 9 | Presentations |
