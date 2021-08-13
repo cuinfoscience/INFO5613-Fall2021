@@ -1,0 +1,155 @@
+% Some article styles and page layout tweaks for the LaTeX Memoir class.
+%
+% Copyright 2009 Benjamin Mako Hill <mako@atdot.cc>
+% Copyright 2008-2009 Kieran Healy <kjhealy@soc.duke.edu>
+
+% Distributed as free software under the GNU GPL v3
+
+% This file is heavily based on one by Kieran Healy
+% available here: http://github.com/kjhealy/latex-custom-kjh/
+
+% blank footnote
+% Use \symbolfootnote[0]{Footnote text} for a blank footnote. 
+% Useful for initial acknowledgment note.
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+
+% >> article-1 << 
+\makechapterstyle{article-1}{
+ \setsecheadstyle{\large\scshape}
+ \setsubsecheadstyle{\normalsize\itshape}
+ \renewcommand{\printchaptername}{}
+ \renewcommand{\chapternamenum}{}
+ \renewcommand{\chapnumfont}{\chaptitlefont}
+ \renewcommand{\printchapternum}{\chapnumfont \thechapter\space}
+ \renewcommand{\afterchapternum}{}
+ \renewcommand{\printchaptername}{\secheadstyle}
+ \renewcommand{\cftchapterfont}{\normalfont}
+ \renewcommand{\cftchapterpagefont}{\normalfont\scshape}
+ \renewcommand{\cftchapterpresnum}{\scshape}
+ \captiontitlefont{\small}
+ 
+ % turn off chapter numbering
+ \counterwithout{section}{chapter}
+ \counterwithout{figure}{chapter}
+ \counterwithout{table}{chapter}
+ 
+ % reduce skip after section heading
+ \setaftersecskip{0ex}
+ 
+ \pretitle{\newline\centering \LARGE\scshape \MakeLowercase }
+ \posttitle{\par\vskip 1em}
+ \predate{\footnotesize \centering}
+ \postdate{\par\vskip 1em}
+ 
+ % 'abstract' title, bigger skip from title
+ \renewcommand{\abstractname}{}
+ \abstractrunin
+
+% set name of bibliography to 'references'
+\renewcommand{\bibname}{References}
+}
+
+% >> article-2 <<
+\makechapterstyle{article-2}{
+ \setsecheadstyle{\Large} % \scshape\MakeLowercase
+ \setsubsecheadstyle{\normalsize\itshape} 
+ \setaftersubsubsecskip{-1em}
+ \setsubsubsecheadstyle{\small\bfseries}
+ \renewcommand{\printchaptername}{} 
+ \renewcommand{\chapternamenum}{} 
+ \renewcommand{\chapnumfont}{\chaptitlefont} 
+ \renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+ \renewcommand{\afterchapternum}{} 
+ \renewcommand{\printchaptername}{\secheadstyle}
+ \renewcommand{\cftchapterfont}{\normalfont} 
+ \renewcommand{\cftchapterpagefont}{\normalfont\scshape} 
+ \renewcommand{\cftchapterpresnum}{\scshape} 
+ \captiontitlefont{\small}
+ 
+ % turn off chapter numbering
+ \counterwithout{section}{chapter}
+ \counterwithout{figure}{chapter}
+ \counterwithout{table}{chapter}
+ 
+ % supress chapter numbers 
+ \maxsecnumdepth{chapter} 
+ \setsecnumdepth{chapter}
+
+ % reduce skip after section heading
+ \setaftersecskip{0ex}
+ 
+ % Title flush left
+ \pretitle{\flushleft\LARGE \itshape}
+ \posttitle{\par\vskip 0.5em}
+ \preauthor{\flushleft  \large \lineskip 1em}
+ \postauthor{\par\lineskip 1em}
+ \predate{\flushleft\footnotesize\vspace{0em}}
+ \postdate{\par\vskip 1em}
+ 
+ % 'abstract' title, bigger skip from title
+ \renewcommand{\abstractname}{\normalfont\scriptsize\noindent}
+ \renewcommand{\abstracttextfont}{\normalfont\scriptsize}
+ \abstractrunin
+
+ % set name of bibliography to 'references'
+ \renewcommand{\bibname}{References}
+}
+
+%%% Custom styles for headers and footers
+   
+%%% Basic 
+\makepagestyle{mako-mem}
+%\makeevenfoot{mako-mem}{\thepage}{}{}
+%\makeoddfoot{mako-mem}{}{}{\thepage}
+%\makeheadrule{mako-mem}{\textwidth}{\normalrulethickness}
+\newcommand{\@makomarks}{%
+  \let\@mkboth\markboth
+  \def\chaptermark##1{%
+    \markboth{%
+      \ifnum \c@secnumdepth >\m@ne
+        \if@mainmatter
+          \thechapter. \ %
+        \fi
+      \fi
+      ##1}{}}
+  \def\sectionmark##1{%
+    \markright{##1}}
+}
+\makepsmarks{mako-mem}{\@makomarks}
+\makepsmarks{mako-mem}{}
+\makeevenhead{mako-mem}{}{}{\scshape\thepage}
+\makeoddhead{mako-mem}{}{}{\scshape\thepage}
+
+%%% version control info in footers; requires vc package 
+% Make the style for vc-git revision control headers and footers
+\makepagestyle{kjhgit}
+\newcommand{\@kjhgitmarks}{%
+  \let\@mkboth\markboth
+  \def\chaptermark##1{%
+    \markboth{%
+      \ifnum \c@secnumdepth >\m@ne
+        \if@mainmatter
+          \thechapter. \ %
+        \fi
+      \fi
+      ##1}{}}
+  \def\sectionmark##1{%
+    \markright{##1}}
+}
+\makepsmarks{kjhgit}{\@kjhgitmarks}
+\makeevenhead{kjhgit}{}{}{\scshape\thepage}
+\makeoddhead{kjhgit}{}{}{\scshape\thepage}
+\makeevenfoot{kjhgit}{}{\texttt{\footnotesize{\textcolor{Blue}{git revision \VCRevision\ on \VCDateTEX}}}}{}
+\makeoddfoot{kjhgit}{}{\texttt{\footnotesize \textcolor{Blue}{git revision \VCRevision\ on \VCDateTEX}}}{}
+
+%% Create a command to make a note at the top of the first page describing the
+%% publication status of the paper. 
+\newcommand{\published}[1]{% 
+   \gdef\puB{#1}} 
+   \newcommand{\puB}{} 
+   \renewcommand{\maketitlehooka}{% 
+       \par\noindent\footnotesize \puB} 
+
+\endinput
+

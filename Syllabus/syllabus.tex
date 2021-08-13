@@ -1,0 +1,794 @@
+ \documentclass[11pt]{memoir}
+
+% based on kieran healy's memoir modifications
+\usepackage{mako-mem}
+\chapterstyle{article-2}
+\pagestyle{mako-mem}
+
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+
+%\usepackage{kpfonts}
+%\usepackage[bitstream-charter]{mathdesign}
+\usepackage{fbb}
+\usepackage[T1]{fontenc}
+%\usepackage{textcomp}
+
+%\renewcommand{\rmdefault}{ugm}
+%\renewcommand{\sfdefault}{phv}
+
+% Packages for making a landscape table (?)
+\usepackage[table,usenames,dvipsnames]{xcolor}
+\usepackage{multirow, makecell}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+
+\usepackage[letterpaper,left=1.125in,right=1.125in,top=1.25in,bottom=1.25in]{geometry}
+
+% packages i use in essentially every document
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{stringstrings}
+
+
+% date auto-incrementation
+\usepackage{datenumber}
+\setdate{2021}{8}{23}
+\def\datedate{\datedayname,\space\datemonthname~\thedateday}
+\def\datedateshort{\substring{\datemonthname}{1}{3}~\thedateday}
+
+\newcommand{\adddays}[1]{%
+    \addtocounter{datenumber}{#1}%
+    \setdatebynumber{\thedatenumber}%
+}
+
+% Setup list environments
+\usepackage{enumitem}
+\setlist[description]{
+  topsep=0pt,
+  before=\vspace{0pt},
+  after=\vspace{0pt},
+  itemsep=2pt,
+  labelsep=0pt
+}
+
+\setlist[itemize]{
+    noitemsep, 
+    leftmargin=1em,
+    topsep=0pt}
+
+% packages i use in many documents but leave off by default
+% \usepackage{amsmath, amsthm, amssymb}
+% \usepackage{dcolumn}
+% \usepackage{endfloat}
+
+% Set paragraph indents and spacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{.5\baselineskip}
+%\usepackage[document]{ragged2e}
+
+% adjust section title formatting
+\usepackage{titlesec}
+\titlespacing\section{0pt}{8pt plus 2pt minus 2pt}{-6pt}
+\titlespacing\subsection{0pt}{8pt plus 2pt minus 2pt}{-6pt}
+\titlespacing\subsubsection{0pt}{8pt plus 2pt minus 2pt}{10pt}
+
+% allows full, in-line citations
+\usepackage{bibentry} 
+
+% add bibliographic stuff 
+\usepackage[round, numbers]{natbib} \def\citepos#1{\citeauthor{#1}'s (\citeyear{#1})} \def\citespos#1{\citeauthor{#1}' (\citeyear{#1})}
+\renewcommand{\bibnumfmt}[1]{}
+
+% define colors from http://www.colorado.edu/brand/visual-identity/typography-color
+%\usepackage[usenames,dvipsnames]{color}
+\definecolor{CUGold}{RGB}{207,184,124}
+\definecolor{CUDarkGray}{RGB}{86,90,92}
+\definecolor{CULightGray}{RGB}{162,164,163}
+
+% customize URLs
+\usepackage[hyphens]{url}
+%\usepackage{breakurl} 
+\usepackage[breaklinks, bookmarks, bookmarksopen]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=Blue,
+    citecolor=Black,
+    filecolor=Blue,
+    urlcolor=Blue,
+    unicode=true,
+    breaklinks=true}
+
+% create a "reading list" environment to format the items
+\newenvironment{readinglist}{
+\begin{list}{}{\leftmargin=0pt \itemindent=0em}
+  \setlength{\itemsep}{8pt}
+  \setlength{\parskip}{0em}
+  \setlength{\parsep}{1em}
+  \setlength{\parindent}{8em}}
+{\end{list}}
+
+% Course/Instructor metadata -- alter as neded
+\def\myauthor{Brian C. Keegan, Ph.D.}
+\def\mycoursename{Network Science}
+\def\mycourselisting{INFO 5613}
+\def\myoffice{INFO 129}
+\def\myclassroom{\href{https://cuboulder.zoom.us/j/96935610716}{https://cuboulder.zoom.us/j/96935610716}}
+\def\mymeetingtime{Tuesday, Thursday 11:10--12:25}
+\def\mydate{Fall 2021}
+\def\myemail{brian.keegan@colorado.edu}
+\def\myweb{http://www.brianckeegan.com}
+\def\myofficehours{Thursdays, 9:00--11:00}
+
+% Some that I'm not using here:
+\def\mytitle{Assistant Professor}
+\def\mycopyright{\myauthor}
+\def\myphone{(+1) 617-803-6971}
+\def\mystreet{1045 18th St.}
+\def\mycity{Boulder, CO 80309}
+
+\begin{document}
+
+\nobibliography*
+
+%\baselineskip 14.2pt
+
+\title{
+    \textbf{\huge{\mycoursename}}\\
+    \vspace{5pt} \normalsize{\mycourselisting}; \mydate
+    }
+
+\author{
+\mymeetingtime\\
+\myclassroom\\
+}
+
+\date{\normalsize{\myauthor\\
+       E-mail: \href{mailto:\myemail}{\myemail}\\
+    %   Office: \myoffice\\
+       Office hours: \myofficehours}}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%
+%% Acknowledgements %%
+%%%%%%%%%%%%%%%%%%%%%%
+% This syllabus template was made in LaTeX by Brian Keegan and is distributed as Free Software under the GNU GPL v3. It was built using style templates created by Aaron Shaw, Benjamin Mako Hill, and Kieran Healy.
+
+% Original description: https://docs.google.com/document/d/1l7Qaop6Lmy7wkP_Jdb5JkeXNkrWVAMdZgQgj5uyvN8Q/edit#
+
+% Rationale
+% Information Exposition follows a series of courses in Information Science in computational methods, statistics, and human-centered methods. This course continues this line of study by showing students how to communicate and construct stories from what they learn, as well as instilling a critical understanding of ethics and the social implications of how we communicate information. The techniques and concepts learned in this course will be important for the upper-division project-based courses that Information Science majors will take.
+
+\section{\textbf{Course Description}}
+
+% Introduces theories and methods for analyzing relational data in social, information, and other complex networks. Students will understand the processes and theories explaining network structure and dynamics as well as develop skills analyzing and visualizing real-world network data. No math or statistics training required, but course will assume familiarity with Python. Counts as Mastery in Information Science.
+
+Data involving relationships and interactions are pervasive in contemporary information society but these data require distinct methods and theories for analysis and interpretation. \textit{Network science} is an umbrella term that encompasses interdisciplinary theories and methods for analyzing social, information, and other complex networks. Network science provides tools to develop quantitative representations linking micro-level processes to macro-level structures across diverse empirical settings like organizations, online communities, and archives. Students will develop their familiarity with the methods and theories to understand the fundamentals of networks, metrics for characterizing their structure, and the dynamics \textit{of} and \textit{on} networks.
+
+% The course is designed to fulfill the ``Mastery'' curriculum requirement for Information Science majors, and will also count towards an upper division course requirement for minors.
+
+\subsection{Learning objectives}
+
+\begin{itemize}[itemsep=0em]
+    \item Understand the theoretical and methodological implications of relational data 
+    \item Apply and interpret metrics for understanding network structure and dynamics
+    \item Develop familiarity with computational tools for analyzing and visualizing networks
+    \item Integrate and explain network methods and theories for general audiences
+\end{itemize}
+
+\subsection{Course Design}
+Class will meet twice per week on Tuesdays and Thursdays from 11:10 to 12:30 on \href{https://cuboulder.zoom.us/j/96935610716}{Zoom}. The format of each class will vary between lectures, exercizes, discussions, and presentations. Student performance will be evaluated through a combination of Module Assignments, Reading Responses, and a Final Project (see \textit{Evaluation} below). There is no final exam.
+
+The class is split up into four modules: (1) \textit{Fundamentals} introduces the unique vocabulary of network science and its unique data and visualizations; (2) \textit{Structure} covers the metrics for describing networks across multiple levels of analysis; (3) \textit{Dynamics} explores how networks can explain change in social systems; (4) \textit{Applications} extends the network framework to more advanced methods. See Table~\ref{tab:course_outline} on page 5 and the Course Outline on pages 6--16 for more details.
+
+Each week will cover a new topic. The Tuesday class will consist of (1) a lecture introducing the core concepts and (2) a computational notebook implementing these concepts. The notebook may include exercises for students to explore following class, but these notebooks will not be formally evaluated. The Thursday class will (1) finish or review concepts from the previous class, (2) discuss students' reading responses, and (3) introduce and work through the Module Assignment.
+
+% The first week of each module will be a ``show'' week dedicated to reviewing or introducing the method. The second week of each module will be a ``tell'' week dedicated to connecting the technique to larger social and ethical implications. In each week, Mondays will be a lecture providing motivation and background, Wednesdays will be a combination of lecture and exercises, and Fridays will be Weekly Presentations.
+
+\subsection{Prerequisites}
+There are no prerequisites for this class. While we will be using the Python programming language and related libraries, students do not need any previous programming experience: the class activities and exercises will be documented and structured to allow students to ``tinker'' with code rather than expecting them to write it from scratch. For more details about programming, please see the \textit{Statistical Computing} section.
+
+\subsection{Requirements}
+Students' regular and sustained participation in all class activities as well as punctual and thorough completion of assignments are essential. If you need to be excused from attending a class session or need an extension to an assignment, please \href{mailto:brian.keegan@colorado.edu}{email instructor} at least 24 hours in advance.
+
+\subsection{Course Website and Materials}
+There is no textbook required for class, but there will be required readings, tutorials, and other material, which will be made available through Canvas:
+\begin{center}
+    \Large{\href{https://canvas.colorado.edu/courses/76045}{https://canvas.colorado.edu/courses/76045}}
+\end{center}
+Once the semester begins, this PDF version of the syllabus will be revised infrequently and any revised requirements will be posted as announcements and updated course schedule to Canvas. The instructor reserves the right to make changes to the course's schedule, evaluation criteria, policies, \textit{etc.} through announcements in class and on Canvas, so please check Canvas regularly. Students should \href{mailto:brian.keegan@colorado.edu}{email the instructor} if there are any discrepancies or ambiguities.
+
+I will also be making a public-facing version of the course materials available through \href{https://github.com/cuinfoscience/INFO5613-Fall2021}{GitHub}. However, the GitHub materials will likely go live after they are put on Canvas and introduced in class. Please use Canvas as the primary source of course materials but share the public-facing GitHub repository with interested friends and colleagues.
+
+\subsection{Statistical Computing}
+Students will need to use statistical computing software. \href{http://jupyter.org/}{Jupyter notebooks} written in Python 3 will be used for all in-class examples and assignments. The \href{https://www.continuum.io/why-anaconda}{Anaconda distribution} of Python 3.8 (or above) is \textit{strongly} recommended to provide all of these programs and other libraries. Lectures will include exercises and presentations with the expectation that students participate with their own laptop computers. If students cannot bring a laptop to class, they should \href{mailto:brian.keegan@colorado.edu}{email the instructor} to work out an alternative arrangement. If students wish to use an alternative data analysis environment (R, Matlab, Julia, \textit{etc.}) they are welcome to do so, but instructional support will only be provided for Anaconda and Python.
+
+\subsection{Evaluation} 
+Students will be evaluated through three different mechanisms. 
+
+    \begin{description}[itemsep=.5em,labelindent=1em]
+        \item[Module Assignments]~(30\%). Module Assignments are intended to develop students' skill applying, synthesizing, and interpreting the methods and theories introduced during classes. There will be three Module Assignments in total corresponding to the first three modules (Fundamentals, Structure, and Dynamics). There will be no Module Assignment for the fourth module Applications so that students can prioritize their Final Projects. Each Module Assignment is worth 10\% of the final grade (30\% cumulative) and they are due by 11:59pm the Friday following the close of the module (see Table~\ref{tab:course_outline}). The format and evaluation criteria of each Module Assignment will vary, but will build on the exercises from each Tuesday class. In the absence of an approved excuse, late submissions will be docked 2\% of their value for every hour elapsed since the deadline.
+        \item[Reading Responses.]~(26\%). Reading Responses are intended to ground new concepts with students' research interests, personal experiences, and reflecting on contemporary or historical issues. Each response will be approximately 500 words and will be submitted on Canvas. Although I may include prompts, the format will remain open-ended: outlining applications to research interests, interpreting historical or contemporary issues, reflecting on personal experiences, and exploratory data analyses using the concepts introduced in the readings and Tuesday's lecture. Responses can be submitted as PDF documents or Jupyter Notebooks saved as HTML files. There will be one Reading Response per week for the first 13 weeks. Each Reading Response will be due Wednesdays by 5pm. There will be a lightweight peer evaluation process whereby students will randomly review another student's Response and provide feedback before Thursday's class at 11am. In the absence of an approved excuse students who do no submit their response on time and/or do not submit peer feedback will lose a portion of the credit at my discretion. The Reading Responses and peer feedback will structure discussions in Thursday classes.
+        \item[Final Project]~(44\%). The Final Project is intended to be a deeper synthesis and application of the concepts covered in the class. Like the reading responses, the genre is open-ended: a literature review, a research proposal, an empirical analysis, a research paper, or an op-ed are among the possibilities. The Final Project will be evaluated by the appropriate application of network science concepts; persuasiveness of the theoretical mechanisms and empirical setting; and the clarity of writing, tables, and figures. Further details about the Final Project will be collaboratively developed and detailed later in the course. The final two weeks of class following the Fall Break will provide students an opportunity to workshop or present on their Final Project progress to receive peer feedback. The Final Project will be due on Tuesday, December 14 by 11:59pm. In the absence of an approved excuse, late Final Project submissions will be docked 2\% of their value for every hour elapsed since the deadline.
+    \end{description}
+
+\section{Course Policies}
+
+\subsection{Classroom Behavior}
+Students and instructors each have responsibility for maintaining an appropriate learning environment. Those who fail to adhere to such behavioral standards may be subject to discipline. Professional courtesy and sensitivity are especially important with respect to individuals and topics dealing with differences of race, color, culture, religion, creed, politics, veteran’s status, sexual orientation, gender, gender identity and gender expression, age, ability, and nationality. Class rosters are provided to the instructor with the student's legal name. The instructor will honor your request to address you by an alternate name or gender pronoun. Please advise the instructor of this preference early in the semester so that he may make appropriate changes. For more information, see the policies on \href{http://www.colorado.edu/policies/student-classroom-and-course-related-behavior}{class behavior} and the \href{http://www.colorado.edu/osc/#student_code}{student code}.
+
+\subsection{Accommodations for Disabilities}
+I am committed to providing everyone the support and services needed to participate in this course. If you qualify for accommodations because of a disability, please submit your accommodation letter from Disability Services to the instructor in a timely manner so that your needs can be addressed. Disability Services determines accommodations based on documented disabilities in the academic environment. Information on requesting accommodations is located on the \href{www.colorado.edu/disabilityservices/students}{Disability Services website}. Contact Disability Services at 303-492-8671 or \href{mailto:dsinfo@colorado.edu}{dsinfo@colorado.edu} for further assistance. If you have a temporary medical condition or injury, see Temporary Medical Conditions under the Students tab on the Disability Services website and discuss your needs with the instructor.
+
+\subsection{Religious Observance}
+Campus policy regarding \href{http://www.colorado.edu/policies/observance-religious-holidays-and-absences-classes-andor-exams}{religious observances} requires that faculty make every effort to deal reasonably and fairly with all students who, because of religious obligations, have conflicts with scheduled exams, assignments or required assignments/attendance. If this applies to you, please \href{mailto:brian.keegan@colorado.edu}{email the instructor} as soon as possible to make the appropriate accommodations.
+
+\subsection{Harassment and Discrimination}
+The University of Colorado Boulder (CU Boulder) is committed to maintaining a positive learning, working, and living environment. CU Boulder will not tolerate acts of sexual misconduct, discrimination, harassment or related retaliation against or by any employee or student. CU's \href{http://www.colorado.edu/policies/discrimination-and-harassment-policy-and-procedures}{Sexual Misconduct Policy} prohibits sexual assault, sexual exploitation, sexual harassment, intimate partner abuse (dating or domestic violence), stalking or related retaliation. CU Boulder's \href{http://www.colorado.edu/policies/discrimination-and-harassment-policy-and-procedures}{Discrimination and Harassment Policy} prohibits discrimination, harassment or related retaliation based on race, color, national origin, sex, pregnancy, age, disability, creed, religion, sexual orientation, gender identity, gender expression, veteran status, political affiliation or political philosophy. Individuals who believe they have been subject to misconduct under either policy should contact the Office of Institutional Equity and Compliance (OIEC) at 303-492-2127. Information about the OIEC, the above referenced policies, and the campus resources available to assist individuals regarding sexual misconduct, discrimination, harassment or related retaliation can be found at the \href{http://www.colorado.edu/institutionalequity/}{OIEC website}.
+
+\subsection{Honor Code}
+All students enrolled in a University of Colorado Boulder course are responsible for knowing and adhering to the \href{http://www.colorado.edu/policies/academic-integrity-policy}{academic integrity policy} of the institution. Violations of the policy may include: plagiarism, cheating, fabrication, lying, bribery, threat, unauthorized access to academic materials, clicker fraud, resubmission, and aiding academic dishonesty. All incidents of academic misconduct will be reported to the Honor Code Council (\href{mailto:honor@colorado.edu}{honor@colorado.edu}; 303-735-2273). Students who are found responsible for violating the academic integrity policy will be subject to nonacademic sanctions from the Honor Code Council as well as academic sanctions from the faculty member. Additional information can be found at \href{http://honorcode.colorado.edu}{honorcode.colorado.edu}. 
+
+\subsection{COVID-19 Contingencies}
+As a matter of public health and safety due to the pandemic, all members of the CU Boulder community and all visitors to campus must follow university, department and building requirements and all public health orders in place to reduce the risk of spreading infectious disease. See the policies on \href{https://www.colorado.edu/policies/covid-19-health-and-safety-policy}{COVID-19 Health and Safety}. Students who fail to adhere to these requirements will be asked to leave class, and students who do not leave class when asked or who refuse to comply with these requirements will be referred to S\href{https://www.colorado.edu/sccr/}{Student Conduct and Conflict Resolution}. For more information, see the policy on \href{http://www.colorado.edu/policies/student-classroom-and-course-related-behavior}{classroom behavior} and the \href{http://www.colorado.edu/osccr/}{Student Code of Conduct}. If you require accommodation because a disability prevents you from fulfilling these safety measures, please follow the steps in the “Accommodation for Disabilities” statement on this syllabus.
+
+As of Aug. 13, 2021, CU Boulder has returned to requiring masks in classrooms and laboratories regardless of vaccination status. This requirement is a temporary precaution during the delta surge to supplement CU Boulder’s COVID-19 vaccine requirement. Exemptions include individuals who cannot medically tolerate a face covering, as well as those who are hearing-impaired or otherwise disabled or who are communicating with someone who is hearing-impaired or otherwise disabled and where the ability to see the mouth is essential to communication. If you qualify for a mask-related accommodation, please follow the steps in the “Accommodation for Disabilities” statement on this syllabus. In addition, vaccinated instructional faculty who are engaged in an indoor instructional activity and are separated by at least 6 feet from the nearest person are exempt from wearing masks if they so choose.
+
+Should a student contract any illness that requires mandatory sequestration, intensive medical treatment, or extended convalescence and disrupts their ability to participate in class and complete assignments, I will try to accommodate their condition without penalty with extensions and incompletes. This also applies if the student has a family member whose diagnosis, treatment, and recovery will affect their ability to participate. \textit{Please do not ghost me}: students should email me as soon as possible of events that will impact their engagement with the class so that I can triage and develop an accommodation plan rather than scrambling at the end of the semester.
+
+\subsection{Faculty Interaction}
+In addition to teaching this class, Professor Keegan also (1) manages a research program; (2) advises students; (3) performs service for the academic community; and (4) lives his life as a private citizen. He will check e-mail between 9:00 and 17:00 on non-holiday business days and will try to respond to emails within 24 hours. He welcomes online or offline interactions outside of class, however these are not appropriate spaces for discussing class matters. \href{maito:brian.keegan@colorado.edu}{E-mailing me} or coming to my office hours are the best ways to get feedback outside of lecture.
+
+\subsection{In-class Confidentiality}
+The success of this class depends on students feeling comfortable sharing questions, ideas, concerns, and confusions about assignments, work-in-progress, and their personal experiences. Students may read, comment, and run on classmates' writing, code, and other class-related content for the sole purpose of use within this class. However, students may not use, run, copy, perform, display, distribute, modify, translate, or create derivative works of another student's work outside of this class without that student's expressed written consent or formal license. Furthermore, students may not create any audio, video, or other records during class time without the instructor's permission nor may students publicly share comments made in class attributable to another person's identity without that person's permission.
+
+\section{Acknowledgements}
+This syllabus was typeset in \LaTeX~using \href{http://www.sharelatex.com}{Overleaf} with the \href{http://www.tug.dk/FontCatalogue/fbb/}{fbb/Bembo} font and is derived from the \texttt{memoir} styles adapted by \href{https://github.com/kjhealy/latex-custom-kjh}{Kieran Healy} and \href{http://projects.mako.cc/source/?p=latex_mako;a=summary}{Benjamin `Mako' Hill}.
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%% COURSE OUTLINE %%%
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+% \clearpage
+\vspace{1em}
+\setdate{2021}{8}{23}
+
+\begin{table}[ht]
+%\Large
+\centering
+    \begin{tabular}{ccccc}
+        \toprule[.15em]
+        \textbf{Module} & \textbf{Week} & \textbf{Dates} & \textbf{Topics} & \textbf{Due Date} \\
+        \cmidrule[.1em](lr){1-5}
+        
+        \multirow{3}{*}[0pt]{\textit{Fundamentals}}
+            & 1 & \adddays{1}\datedateshort; \adddays{2}\datedateshort & Fundamentals of networks & \multirow{3}{*}[0pt]{\textit{September 17}} \\
+            & 2 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Data and ethics of networks & \\ 
+            & 3 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Visualizing networks & \\ \cmidrule[.1em](lr){1-5}
+            
+        \multirow{4}{*}[0pt]{\textit{Structure}}
+            & 4 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Node-level structure &  \multirow{4}{*}[0pt]{\textit{October 15}} \\
+            & 5 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Local-level structure & \\ 
+            & 6 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Global-level structure & \\
+            & 7 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Community structure & \\
+            \cmidrule[.1em](lr){1-5}
+        
+        \multirow{4}{*}[0pt]{\textit{Dynamics}}
+            & 8 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Random networks & \multirow{4}{*}[0pt]{\textit{November 12}} \\
+            & 9 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Network growth & \\
+            & 10 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Diffusion and influence &  \\
+            & 11 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Similarity and homophily & \\ \cmidrule[.1em](lr){1-5}
+        
+         \multirow{2}{*}[0pt]{\textit{Applications}}      
+            & 12 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Bipartite networks and projections &  \multirow{2}{*}[0pt]{\textit{---}}\\
+            & 13 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & Weighted and multiplex networks & \\ \cmidrule[.1em](lr){1-5}
+            
+            & 14 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & \multicolumn{2}{c}{\textbf{No Class: Fall Break}} \\ \cmidrule[.1em](lr){1-5}
+        
+        \multirow{2}{*}[0pt]{\textit{Presentations}} 
+            & 15 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & \multirow{2}{*}[0pt]{Presentations}  & \multirow{2}{*}[0pt]{\textit{December 13}} \\ 
+            & 16 & \adddays{5}\datedateshort; \adddays{2}\datedateshort & & \\
+            
+        \bottomrule[.15em]
+    \end{tabular}
+    \caption{Course outline by week.}
+    \label{tab:course_outline}
+\end{table}
+
+\clearpage
+
+\section{\textbf{Course Outline}}
+\setdate{2021}{8}{23}
+The schedule will evolve throughout the semester, so please consult the schedule online at Canvas for the most up-to-date information.
+
+\section{Week 1 -- Fundamentals: Introductions}
+\textcolor{CUGold}{\textbf{\adddays{1}\datedate; \adddays{2}\datedate}}\\
+Administrivia and computing environments; history and outline of network science.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{borgatti_NetworkAnalysisSocial_2009}
+            \item \bibentry{butts_RevisitingFoundationsNetwork_2009}
+            \item \bibentry{brandes_WhatNetworkScience_2013}
+        \end{itemize}
+
+    \item \textbf{Reviews}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{burt_ModelsNetworkStructure_1980}
+            \item \bibentry{wellman_NetworkAnalysisBasic_1983}
+            \item \bibentry{scott_SocialNetworkAnalysis_1988}
+            \item \bibentry{newman_structure_2003}
+            \item \bibentry{watts_NewScienceNetworks_2004}
+            \item \bibentry{boccaletti_ComplexNetworksStructure_2006}
+            \item \bibentry{costa_CharacterizationComplexNetworks_2007}
+            \item \bibentry{borner_network_2007}
+            \item \bibentry{butts_SocialNetworkAnalysis_2008}
+            \item \bibentry{costa_AnalyzingModelingRealworld_2011}
+            \item \bibentry{scott_SocialNetworkAnalysis_2011}
+        \end{itemize}
+        
+\end{itemize}
+
+\section{Week 2 -- Fundamentals: Data and ethics of networks}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Representing nodes and links; data collection and validity; ethics of network analysis.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{marsden_network_1990}
+            \item \bibentry{howison_validity_2011}
+            \item \bibentry{tubaro_SocialNetworkAnalysis_2020}
+        \end{itemize}
+        
+    \item \textbf{Tools}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{borgatti_ucinet_2002}
+            \item \bibentry{csardi_igraph_2006}
+            \item \bibentry{hagberg_networkx_2008}
+            \item \bibentry{smith_nodexl_2010}
+            \item \bibentry{peixoto_graphtool_2014}
+            \item \bibentry{bonald_scikitnetwork_2020}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{bernard_information_1977}
+            \item \bibentry{bernard_informant_1984}
+            \item \bibentry{borgatti_EthicalGuidelinesNetwork_2005}
+            \item \bibentry{dangelo_PresentationNetworkedSelf_2019}
+            \item \bibentry{diviak_KeyAspectsCovert_2019}
+            \item \bibentry{kadushin_who_2005}
+            \item \bibentry{kossinets_effects_2006}
+            \item \bibentry{molina_MoralBureaucraciesSocial_2019}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 3 -- Fundamentals: Visualizing networks}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+% Edge lists, adjacency lists \& matrices
+Aesthetics, pruning, layout algorithms.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{pfeffer_SocialNetworkVisualization_2019}
+            \item \bibentry{krempel_NetworkVisualization_2014}
+        \end{itemize}
+    
+    \item \textbf{Tools}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{ellson2001graphviz}
+            \item \bibentry{borgatti_netdraw_2002}
+            \item \bibentry{shannon2003cytoscape}
+            \item \bibentry{bastian2009gephi}
+            \item \bibentry{aslak2019netwulf}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{bennett_AestheticsGraphVisualization_2007}
+            \item \bibentry{beck_TaxonomySurveyDynamic_2017}
+            \item \bibentry{brandes_ExplanationNetworkVisualization_2006}
+            \item \bibentry{gibson_SurveyTwodimensionalGraph_2013}
+            \item \bibentry{healy_data_2014}
+            \item \bibentry{herman_GraphVisualizationNavigation_2000}
+            \item \bibentry{huang_LayoutEffectsSociogram_2006}
+            \item \bibentry{landesberger_VisualAnalysisLarge_2011}
+            \item \bibentry{mcgrath_EffectSpatialArrangement_1997}
+            \item \bibentry{moody_DynamicNetworkVisualization_2005}
+            \item \bibentry{pokorny_NetworkAnalysisVisualization_2018}
+            \item \bibentry{zhu_visualization_2010}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 4 -- Structure: Node-level structure}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Metrics for centrality, reciprocity, and social capital.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{freeman_centrality_1978}
+            \item \bibentry{borgatti1998network}
+            \item \bibentry{lin_BuildingNetworkTheory_1999}
+        \end{itemize}
+    
+    % \item \textbf{Tools}
+    %     \begin{itemize}[noitemsep]
+    %     \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{burt_NetworkStructureSocial_2000}
+            \item \bibentry{borgatti_centrality_2005}
+            \item \bibentry{borgatti_graph-theoretic_2006}
+            \item \bibentry{kwon_SocialCapitalMaturation_2014}
+            \item \bibentry{nahapiet_social_1998}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 5 -- Structure: Local-level structure}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Ego networks, triadic structure, clustering, embeddedness, assortativity.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{feld_friends_1991}
+            \item \bibentry{milo_network_2002}
+            \item \bibentry{newman_different_2003}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{holland_local_1976}
+            \item \bibentry{granovetter_EconomicActionSocial_1985a}
+            \item \bibentry{bonacich_centrality_1987}
+            \item \bibentry{uzzi_social_1997}
+            \item \bibentry{newman_MixingPatternsNetworks_2003}
+            \item \bibentry{milo_superfamilies_2004}
+            \item \bibentry{opsahl_clustering_2009}
+            \item \bibentry{aral_diversity-bandwidth_2011}
+            \item \bibentry{lerman_MajorityIllusionSocial_2016}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 6 -- Structure: Global-level structure}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Small worlds, structural holes, degree distributions, components, and paths.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{borgatti_models_2000}
+            \item \bibentry{uzzi_SmallworldNetworksManagement_2007}
+            \item \bibentry{barabasi_ScaleFreeNetworksDecade_2009}
+        \end{itemize}
+    
+    \item \textbf{Tools}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{alstott_powerlaw_2014}
+            \item \bibentry{gillespie_FittingHeavyTailed_2015}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{broido_scalefree_2019}
+            \item \bibentry{burt_structural_2004}
+            \item \bibentry{clauset_powerlaw_2009}
+            \item \bibentry{johnson_EmergencePowerLaws_2014}
+            \item \bibentry{milojevic_power_2010}
+            \item \bibentry{mitzenmacher_brief_2004}
+            \item \bibentry{robins_small_2005}
+            \item \bibentry{rombach_CorePeripheryStructureNetworks_2017}
+            \item \bibentry{watts_CollectiveDynamicsSmallworld_1998}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 7 -- Structure: Community structure}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Cohesion, community detection, cores-cliques-clans, blockmodels, modularity.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{friedkin_social_2004}
+            \item \bibentry{fortunato_CommunityDetectionNetworks_2016}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{bedi_CommunityDetectionSocial_2016}
+            \item \bibentry{doreian_DefiningLocatingCores_1994}
+            \item \bibentry{fortunato_CommunityDetectionGraphs_2010}
+            \item \bibentry{javed_CommunityDetectionNetworks_2018}
+            \item \bibentry{ibarra_zooming_2005}
+            \item \bibentry{moody_structural_2003}
+            \item \bibentry{porter2009communities}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 8 -- Dynamics: Random networks}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Erd\"{o}s-Renyi models, permutation tests, null models, expontential random graph models.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{farine_GuideNullModels_2017}
+            \item \bibentry{faust_ComparingNetworksSpace_2002}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{fredrickson_PermutationRandomizationTests_2019}
+            \item \bibentry{ghafouri_SurveyExponentialRandom_2020}
+            \item \bibentry{hanhijarvi_RandomizationTechniquesGraphs_2009}
+            \item \bibentry{newman_RandomGraphModels_2002}
+            \item \bibentry{robins_IntroductionExponentialRandom_2007}
+            \item \bibentry{shumate_ExponentialRandomGraph_2010}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 9 -- Dynamics: Network growth}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Preferential attachment, robustness, percolation.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{andriani_perspectivegaussian_2009}
+            \item \bibentry{kossinets_empirical_2006}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{ahuja_introduction_2012}
+            \item \bibentry{barabasi_EvolutionSocialNetwork_2002}
+            \item \bibentry{dorogovtsev_EvolutionNetworks_2002}
+            \item \bibentry{kilduff_ParadigmTooFar_2006}
+            \item \bibentry{leskovec_GraphEvolutionDensification_2007}
+            \item \bibentry{leskovec_microscopic_2008}
+            \item \bibentry{palla_QuantifyingSocialGroup_2007}
+            \item \bibentry{paranjape_MotifsTemporalNetworks_2017}
+            \item \bibentry{rosvall_MappingChangeLarge_2010}
+            \item \bibentry{toivonen_ComparativeStudySocial_2009}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 10 -- Dynamics: Diffusion and influence}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Diffusion of innovation, simple contagion, complex contagion, threshold models.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{valente_network_2012}
+            \item \bibentry{guilbeault_ComplexContagionsDecade_2018}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{brockmann_HiddenGeometryComplex_2013}
+            \item \bibentry{centola_ComplexContagionsWeakness_2007}
+            \item \bibentry{centola_SocialOriginsNetworks_2015}
+            \item \bibentry{granovetter_ThresholdModelsCollective_1978}
+            \item \bibentry{hodas_SimpleRulesSocial_2014}
+            \item \bibentry{pastorsatorras_epidemic_2015}
+            \item \bibentry{strang_DiffusionOrganizationsSocial_1998}
+            \item \bibentry{ugander_StructuralDiversitySocial_2012}
+            \item \bibentry{watts_influentials_2007}
+            \item \bibentry{wejnert_IntegratingModelsDiffusion_2002}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 11 -- Dynamics: Homophily}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Attributes, similarity, network endogeneity.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{mcpherson_birds_2001}
+            \item \bibentry{rivera_dynamics_2010}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{aral_DistinguishingInfluencebasedContagion_2009}
+            \item \bibentry{aral_EngineeringSocialContagions_2013}
+            \item \bibentry{centola_ExperimentalStudyHomophily_2011}
+            \item \bibentry{dimaggio_NetworkEffectsSocial_2012}
+            \item \bibentry{ibarra_HomophilyDifferentialReturns_1992}
+            \item \bibentry{jackson_DiffusionContagionNetworks_2013}
+            \item \bibentry{kossinets_OriginsHomophilyEvolving_2009}
+            \item \bibentry{newman_mixing_2003}
+            \item \bibentry{shalizi_HomophilyContagionAre_2011}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 12 -- Applications: Bipartite networks and projections}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Duality of people and groups, affiliation relationships, one-mode projections.
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{borgatti_network_1997}
+            \item \bibentry{latapy_basic_2008}
+        \end{itemize}
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{breiger_DualityPersonsGroups_1974}
+            \item \bibentry{borner_simultaneous_2004}
+            \item \bibentry{faust_centrality_1997}
+            \item \bibentry{feld_focused_1981}
+            \item \bibentry{keegan_editors_2012}
+            \item \bibentry{mizruchi_WhatInterlocksAnalysis_1996}
+            \item \bibentry{neal_backbone_2014}
+            \item \bibentry{opsahl_triadic_2013}
+            \item \bibentry{robins_SmallWorldsInterlocking_2004}
+            \item \bibentry{wang_ExponentialRandomGraph_2009}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 13 -- Applications: Weighted and multiplex networks}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Overlapping relationships, backbone extraction methods. 
+
+\begin{itemize}[itemsep=1em]
+    \item \textbf{Concepts}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{barrat_architecture_2004}
+            \item \bibentry{marsden_ReflectionsConceptualizingMeasuring_2012}
+            \item \bibentry{stopczynski_MeasuringLargeScaleSocial_2014}
+        \end{itemize}
+    
+    \item \textbf{Extensions}
+        \begin{itemize}[noitemsep]
+            \item \bibentry{aral_diversitybandwidth_2011}
+            \item \bibentry{barrat_weighted_2004}
+            \item \bibentry{brashears_WeaknessTieStrength_2018}
+            \item \bibentry{bonacich_hyperedges_2004}
+            \item \bibentry{gilbert_PredictingTieStrength_2009}
+            \item \bibentry{granovetter_strength_1973}
+            \item \bibentry{serrano_ExtractingMultiscaleBackbone_2009}
+            \item \bibentry{opsahl_node_2010}
+        \end{itemize}
+    
+\end{itemize}
+
+\section{Week 14 -- Fall Break}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+No class.
+
+\section{Week 15 -- Presentations}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+Presentations of final projects.
+
+\section{Week 16 -- Presentations}
+\textcolor{CUGold}{\textbf{\adddays{5}\datedate;  \adddays{2}\datedate}}\\
+% Experimental design, exponential random graph models, node2vec.
+Presentations of final projects.
+
+\newpage
+\section{Miscellaneous papers}
+These papers did not fit cleanly into any of the weeks, but I wanted to share them as resources for anyone building out reading lists for comprehensive exams. This list is obviously not exhaustive and I welcome your suggestions for additions!
+
+\begin{itemize}[itemsep=1em]
+
+    \item \textbf{Theory}
+    \begin{itemize}[noitemsep]
+        \item \bibentry{borgatti_NetworkTheory_2011}
+        \item \bibentry{burt_social_2013}
+        \item \bibentry{emirbayer_NetworkAnalysisCulture_1994}
+        \item \bibentry{emirbayer_ManifestoRelationalSociology_1997}
+        \item \bibentry{healy_performativity_2015}
+        \item \bibentry{jackson_networks_2009}
+        \item \bibentry{jones_general_1997}
+        \item \bibentry{sundararajan_information_2013}
+    \end{itemize}
+    
+    \item \textbf{Mixed methods}
+    \begin{itemize}[noitemsep]
+        \item \bibentry{coviello_integrating_2005}
+        \item \bibentry{crossley_SocialWorldNetwork_2010}
+        \item \bibentry{hollstein_QualitativeApproaches_2014}
+        \item \bibentry{yousefinooraie_SocialNetworkAnalysis_2020}
+    \end{itemize}
+    
+    \item \textbf{Computational social science}
+    \begin{itemize}[noitemsep]
+        \item \bibentry{edelmann_ComputationalSocialScience_2020a}
+        \item \bibentry{freelon_interpretation_2014}
+        \item \bibentry{golder_digital_2014}
+        \item \bibentry{hampton_StudyingDigitalDirections_2017}
+        \item \bibentry{lazer_life_2009}
+        \item \bibentry{lazer_DataExMachina_2017}
+        \item \bibentry{lazerComputationalSocialScience2020}
+        \item \bibentry{kleinberg_convergence_2008}
+    \end{itemize}
+    
+    \item \textbf{Disciplines}
+        \begin{itemize}[itemsep=1em]
+            \item \textbf{Information}
+                \begin{itemize}[noitemsep]
+                    \item \bibentry{haythornthwaite_SocialNetworkAnalysis_1996}
+                    \item \bibentry{otte_SocialNetworkAnalysis_2002}
+                    \item \bibentry{sundararajan_information_2013}
+                \end{itemize}
+            
+            \item \textbf{Journalism}
+                \begin{itemize}[noitemsep]
+                    \item \bibentry{fu_LeveragingSocialNetwork_2016}
+                    \item \bibentry{kejiang_DynamicsCultureFrames_2016}
+                    \item \bibentry{kim_DeterminantsInternationalNews_1996}
+                    \item \bibentry{robinson_NetworkEthnographyJournalism_2020}
+                \end{itemize}
+                
+            \item \textbf{Communication}
+                \begin{itemize}[noitemsep]
+                    \item \bibentry{monge_EmergenceCommunicationNetworks_2001}
+                    \item \bibentry{doerfel1998constitutes}
+                \end{itemize}
+                
+            \item \textbf{Media}
+                \begin{itemize}[noitemsep]
+                    \item \bibentry{guo_ApplicationSocialNetwork_2012}
+                    \item \bibentry{moon_StructureInternationalMusic_2010}
+                \end{itemize}
+                
+            \item \textbf{Organizations}
+                \begin{itemize}[noitemsep]
+                    \item \bibentry{borgatti_network_2003}
+                    \item \bibentry{brass_taking_2004}
+                    \item \bibentry{katz_network_2004}
+                    \item \bibentry{kilduff_organizational_2010}
+                    \item \bibentry{obstfeld_social_2005}
+                    \item \bibentry{podolny_network_1998}
+                    \item \bibentry{powell_neither_1991}
+                    \item \bibentry{zaheer_its_2010}
+                \end{itemize}
+        \end{itemize}
+\end{itemize}
+
+% \vspace{2em}
+
+% Introduction: definitions, terminology, level of analysis (node, link, dyad, triad, subgroup, component)
+% Types of networks: weighted, directed, signed, bipartite, multiplex, social, information, infrastructural
+% Properties: representations, paths, span, transitivity, structural equivalence
+% Visualization: aesthetics, layout algorithms, pruning
+
+% Node metrics: centrality, authority, transitivity, reciprocity, assortativity
+% Ego networks: embeddedness, structural holes, constraint, triads, transitivity
+% Graph metrics: shortest paths, small world, degree distributions, clustering, flow
+% Community: clustering, blockmodels, modularity, partitioning
+
+% Dynamics of networks: random networks, permutations, preferential attachment
+% Dynamics on networks: homophily, diffusion, simplex/complex contagion
+
+% Bipartite: affiliation, projection
+% Weighted & Multiplex: backbone
+% Statistics: p*/ergm, RSiena
+
+\renewcommand{\bibsection}{\section{\huge \bibname}\prebibhook}
+\baselineskip 14.2pt
+\nobibliography{refs}
+\bibliographystyle{apalike}
+
+\end{document}
